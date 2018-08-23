@@ -1,127 +1,154 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Renlvda.Util;
 
-public class Chunk : MonoBehaviour {
+namespace Renlvda.Voxel
+{
+	[RequireComponent(typeof(MeshFilter))]
+	[RequireComponent(typeof(MeshRenderer))]
+	[RequireComponent(typeof(MeshCollider))]
+	public class Chunk : MonoBehaviour
+	{
+		public static int width = 16;
+		public static int height = 16;
 
-	private Mesh mesh;
+		public byte[,,] blocks;
+		public Vector3int position;
 
-	private List<Vector3> vertices = new List<Vector3> ();
+		private Mesh mesh;
 
-	private List<int> triangles = new List<int>();
+		//面需要的点
+		private List<Vector3> vertices = new List<Vector3> ();
+		//生成三边面时用到的vertices的index
+		private List<int> triangles = new List<int> ();
 
-	void Start () {
-		mesh = new Mesh ();
+		//当前chunk是否正在生成中
+		private bool isWorking = false;
 
-		AddFrontFace ();
-		AddBackFace ();
-		AddLeftFace ();
-		AddRightFace ();
-		AddTopFace ();
-		AddBottomFace ();
+		void Start ()
+		{
+			mesh = new Mesh ();
 
-		mesh.vertices = vertices.ToArray ();
-		mesh.triangles = triangles.ToArray ();
+			AddFrontFace ();
+			AddBackFace ();
+			AddLeftFace ();
+			AddRightFace ();
+			AddTopFace ();
+			AddBottomFace ();
 
-		mesh.RecalculateBounds ();
-		mesh.RecalculateNormals ();
+			mesh.vertices = vertices.ToArray ();
+			mesh.triangles = triangles.ToArray ();
 
-		GetComponent<MeshFilter> ().mesh = mesh;
-	}
+			mesh.RecalculateBounds ();
+			mesh.RecalculateNormals ();
 
-	void AddFrontFace(){
-		triangles.Add (0 + vertices.Count);
-		triangles.Add (3 + vertices.Count);
-		triangles.Add (2 + vertices.Count);
+			GetComponent<MeshFilter> ().mesh = mesh;
 
-		triangles.Add (2 + vertices.Count);
-		triangles.Add (1 + vertices.Count);
-		triangles.Add (0 + vertices.Count);
+			Renlvda.Util.Vector3int a = new Renlvda.Util.Vector3int ();
+			Debug.Log (a.x + " " + a.y + " " + a.z);
+		}
 
-		vertices.Add (new Vector3 (0, 0, 0));
-		vertices.Add (new Vector3 (0, 0, 1));
-		vertices.Add (new Vector3 (0, 1, 1));
-		vertices.Add (new Vector3 (0, 1, 0));
+		void AddFrontFace ()
+		{
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
 
-	}
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
 
-	void AddBackFace(){
-		triangles.Add (0 + vertices.Count);
-		triangles.Add (3 + vertices.Count);
-		triangles.Add (2 + vertices.Count);
+			vertices.Add (new Vector3 (0, 0, 0));
+			vertices.Add (new Vector3 (0, 0, 1));
+			vertices.Add (new Vector3 (0, 1, 1));
+			vertices.Add (new Vector3 (0, 1, 0));
 
-		triangles.Add (2 + vertices.Count);
-		triangles.Add (1 + vertices.Count);
-		triangles.Add (0 + vertices.Count);
+		}
 
-		vertices.Add (new Vector3 (-1, 0, 1));
-		vertices.Add (new Vector3 (-1, 0, 0));
-		vertices.Add (new Vector3 (-1, 1, 0));
-		vertices.Add (new Vector3 (-1, 1, 1));
+		void AddBackFace ()
+		{
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
 
-	}
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
 
-	void AddLeftFace(){
-		triangles.Add (0 + vertices.Count);
-		triangles.Add (3 + vertices.Count);
-		triangles.Add (2 + vertices.Count);
+			vertices.Add (new Vector3 (-1, 0, 1));
+			vertices.Add (new Vector3 (-1, 0, 0));
+			vertices.Add (new Vector3 (-1, 1, 0));
+			vertices.Add (new Vector3 (-1, 1, 1));
 
-		triangles.Add (2 + vertices.Count);
-		triangles.Add (1 + vertices.Count);
-		triangles.Add (0 + vertices.Count);
+		}
 
-		vertices.Add (new Vector3 (-1, 0, 0));
-		vertices.Add (new Vector3 (0, 0, 0));
-		vertices.Add (new Vector3 (0, 1, 0));
-		vertices.Add (new Vector3 (-1, 1, 0));
+		void AddLeftFace ()
+		{
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
 
-	}
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
 
-	void AddRightFace(){
-		triangles.Add (0 + vertices.Count);
-		triangles.Add (3 + vertices.Count);
-		triangles.Add (2 + vertices.Count);
+			vertices.Add (new Vector3 (-1, 0, 0));
+			vertices.Add (new Vector3 (0, 0, 0));
+			vertices.Add (new Vector3 (0, 1, 0));
+			vertices.Add (new Vector3 (-1, 1, 0));
 
-		triangles.Add (2 + vertices.Count);
-		triangles.Add (1 + vertices.Count);
-		triangles.Add (0 + vertices.Count);
+		}
 
-		vertices.Add (new Vector3 (0, 0, 1));
-		vertices.Add (new Vector3 (-1, 0, 1));
-		vertices.Add (new Vector3 (-1, 1, 1));
-		vertices.Add (new Vector3 (0, 1, 1));
+		void AddRightFace ()
+		{
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
 
-	}
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
 
-	void AddTopFace(){
-		triangles.Add (0 + vertices.Count);
-		triangles.Add (3 + vertices.Count);
-		triangles.Add (2 + vertices.Count);
+			vertices.Add (new Vector3 (0, 0, 1));
+			vertices.Add (new Vector3 (-1, 0, 1));
+			vertices.Add (new Vector3 (-1, 1, 1));
+			vertices.Add (new Vector3 (0, 1, 1));
 
-		triangles.Add (2 + vertices.Count);
-		triangles.Add (1 + vertices.Count);
-		triangles.Add (0 + vertices.Count);
+		}
 
-		vertices.Add (new Vector3 (0, 1, 0));
-		vertices.Add (new Vector3 (0, 1, 1));
-		vertices.Add (new Vector3 (-1, 1, 1));
-		vertices.Add (new Vector3 (-1, 1, 0));
+		void AddTopFace ()
+		{
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
 
-	}
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
 
-	void AddBottomFace(){
-		triangles.Add (0 + vertices.Count);
-		triangles.Add (3 + vertices.Count);
-		triangles.Add (2 + vertices.Count);
+			vertices.Add (new Vector3 (0, 1, 0));
+			vertices.Add (new Vector3 (0, 1, 1));
+			vertices.Add (new Vector3 (-1, 1, 1));
+			vertices.Add (new Vector3 (-1, 1, 0));
 
-		triangles.Add (2 + vertices.Count);
-		triangles.Add (1 + vertices.Count);
-		triangles.Add (0 + vertices.Count);
+		}
 
-		vertices.Add (new Vector3 (-1, 0, 0));
-		vertices.Add (new Vector3 (-1, 0, 1));
-		vertices.Add (new Vector3 (0, 0, 1));
-		vertices.Add (new Vector3 (0, 0, 0));
+		void AddBottomFace ()
+		{
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
 
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
+
+			vertices.Add (new Vector3 (-1, 0, 0));
+			vertices.Add (new Vector3 (-1, 0, 1));
+			vertices.Add (new Vector3 (0, 0, 1));
+			vertices.Add (new Vector3 (0, 0, 0));
+
+		}
 	}
 }

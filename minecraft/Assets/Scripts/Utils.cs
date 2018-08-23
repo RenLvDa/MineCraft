@@ -135,38 +135,6 @@ namespace Renlvda.Util{
 		{
 			return string.Format ("Vector3int({0},{1},{2})", x, y, z);
 		}
-
-		//Vector3的拓展工具类
-		public static class Vector3Utils
-		{
-			public static Vector3 Mul(this Vector3 a,Vector3 b){
-				a.x *= b.x;
-				a.y *= b.y;
-				a.z *= b.z;
-				return a;
-			}
-
-			public static Vector3 Div(this Vector3 a,Vector3 b){
-				a.x /= b.x;
-				a.y /= b.y;
-				a.z /= b.z;
-				return a;
-			}
-
-			public static Vector3 Process(this Vector3 a,Func<float,float> func){
-				a.x = func (a.x);
-				a.y = func (a.y);
-				a.z = func (a.z);
-				return a;
-			}
-
-			public static Vector3int ProcessTo3int(this Vector3 a,Func<float,int> func){
-				Vector3int vi;
-				vi.x = func (a.x);
-				vi.y = func (a.y);
-				vi.z = func (a.z);
-				return vi;
-			}
-		}
+			
 	}
 }
