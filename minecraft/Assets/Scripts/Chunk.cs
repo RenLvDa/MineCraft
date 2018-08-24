@@ -5,9 +5,9 @@ using Renlvda.Util;
 
 namespace Renlvda.Voxel
 {
-	[RequireComponent(typeof(MeshFilter))]
-	[RequireComponent(typeof(MeshRenderer))]
-	[RequireComponent(typeof(MeshCollider))]
+	[RequireComponent (typeof(MeshFilter))]
+	[RequireComponent (typeof(MeshRenderer))]
+	[RequireComponent (typeof(MeshCollider))]
 	public class Chunk : MonoBehaviour
 	{
 		public static int width = 16;
@@ -28,14 +28,88 @@ namespace Renlvda.Voxel
 
 		void Start ()
 		{
-			mesh = new Mesh ();
+//			mesh = new Mesh ();
+//
+//			AddFrontFace ();
+//			AddBackFace ();
+//			AddLeftFace ();
+//			AddRightFace ();
+//			AddTopFace ();
+//			AddBottomFace ();
+//
+//			mesh.vertices = vertices.ToArray ();
+//			mesh.triangles = triangles.ToArray ();
+//
+//			mesh.RecalculateBounds ();
+//			mesh.RecalculateNormals ();
+//
+//			GetComponent<MeshFilter> ().mesh = mesh;
+			position = new Vector3int (this.transform.position);
+			if (Map.Instance.chunks.ContainsKey (position)) {
+				Destroy (this);
+			} else {
+				this.name = "(" + position.x + "," + position.y + "," + position.z + ")";
 
-			AddFrontFace ();
-			AddBackFace ();
-			AddLeftFace ();
-			AddRightFace ();
-			AddTopFace ();
-			AddBottomFace ();
+			}
+		}
+
+		void StartFunction ()
+		{
+			mesh = new Mesh ();
+			mesh.name = "Chunk";
+
+			StartCoroutine (CreateMap ());
+		}
+
+		IEnumerator CreateMap ()
+		{
+			while (!isWorking) {
+				yield return null;
+			}
+			isWorking = true;
+			blocks = new byte[width, height, width];
+			for (int x = 0; x < Chunk.width; x++) {
+				for (int y = 0; y < Chunk.height; y++) {
+					for (int z = 0; z < Chunk.width; z++) {
+						blocks [x, y, z] = 1;
+					}
+				}
+			}
+				
+			StartCoroutine (CreateMesh ());
+		}
+
+
+		IEnumerator CreateMesh ()
+		{
+			vertices.Clear ();
+			triangles.Clear ();
+
+			//把所有面的点和面的索引添加进去
+			for (int x = 0; x < Chunk.width; x++) {
+				for (int y = 0; y < Chunk.height; y++) {
+					for (int z = 0; z < Chunk.width; z++) {
+						if (IsBlockTransparent (x + 1, y, z)) {
+							AddFrontFace (x, y, z);
+						}
+						if (IsBlockTransparent (x - 1, y, z)) {
+							AddBackFace (x, y, z);
+						}
+						if (IsBlockTransparent (x, y, z + 1)) {
+							AddRightFace (x, y, z);
+						}
+						if (IsBlockTransparent (x, y, z - 1)) {
+							AddLeftFace (x, y, z);
+						}
+						if (IsBlockTransparent (x, y + 1, z)) {
+							AddTopFace (x, y, z);
+						}
+						if (IsBlockTransparent (x, y - 1, z)) {
+							AddBottomFace (x, y, z);
+						}
+					}
+				}
+			}
 
 			mesh.vertices = vertices.ToArray ();
 			mesh.triangles = triangles.ToArray ();
@@ -43,13 +117,46 @@ namespace Renlvda.Voxel
 			mesh.RecalculateBounds ();
 			mesh.RecalculateNormals ();
 
-			GetComponent<MeshFilter> ().mesh = mesh;
+			this.GetComponent<MeshFilter> ().mesh = mesh;
+			this.GetComponent<MeshCollider> ().sharedMesh = mesh;
 
-			Renlvda.Util.Vector3int a = new Renlvda.Util.Vector3int ();
-			Debug.Log (a.x + " " + a.y + " " + a.z);
+			yield return null;
+			isWorking = false;
 		}
 
-		void AddFrontFace ()
+
+		public static bool IsBlockTransparent (int x, int y, int z)
+		{
+			if (x >= width || y >= height || z >= width || x < 0 || y < 0 || z < 0) {
+				return true;
+			}
+			return false;
+		}
+
+
+		//前面
+		void AddFrontFace (int x, int y, int z)
+		{
+			//第一个三角面
+			triangles.Add (0 + vertices.Count);
+			triangles.Add (3 + vertices.Count);
+			triangles.Add (2 + vertices.Count);
+
+			//第二个三角面
+			triangles.Add (2 + vertices.Count);
+			triangles.Add (1 + vertices.Count);
+			triangles.Add (0 + vertices.Count);
+
+			//添加4个点
+			vertices.Add (new Vector3 (0 + x, 0 + y, 0 + z));
+			vertices.Add (new Vector3 (0 + x, 0 + y, 1 + z));
+			vertices.Add (new Vector3 (0 + x, 1 + y, 1 + z));
+			vertices.Add (new Vector3 (0 + x, 1 + y, 0 + z));
+
+		}
+
+		//背面
+		void AddBackFace (int x, int y, int z)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -59,14 +166,14 @@ namespace Renlvda.Voxel
 			triangles.Add (1 + vertices.Count);
 			triangles.Add (0 + vertices.Count);
 
-			vertices.Add (new Vector3 (0, 0, 0));
-			vertices.Add (new Vector3 (0, 0, 1));
-			vertices.Add (new Vector3 (0, 1, 1));
-			vertices.Add (new Vector3 (0, 1, 0));
+			vertices.Add (new Vector3 (-1 + x, 0 + y, 1 + z));
+			vertices.Add (new Vector3 (-1 + x, 0 + y, 0 + z));
+			vertices.Add (new Vector3 (-1 + x, 1 + y, 0 + z));
+			vertices.Add (new Vector3 (-1 + x, 1 + y, 1 + z));
 
 		}
 
-		void AddBackFace ()
+		void AddLeftFace (int x, int y, int z)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -76,14 +183,14 @@ namespace Renlvda.Voxel
 			triangles.Add (1 + vertices.Count);
 			triangles.Add (0 + vertices.Count);
 
-			vertices.Add (new Vector3 (-1, 0, 1));
-			vertices.Add (new Vector3 (-1, 0, 0));
-			vertices.Add (new Vector3 (-1, 1, 0));
-			vertices.Add (new Vector3 (-1, 1, 1));
+			vertices.Add (new Vector3 (-1 + x, 0 + y, 0 + z));
+			vertices.Add (new Vector3 (0 + x, 0 + y, 0 + z));
+			vertices.Add (new Vector3 (0 + x, 1 + y, 0 + z));
+			vertices.Add (new Vector3 (-1 + x, 1 + y, 0 + z));
 
 		}
 
-		void AddLeftFace ()
+		void AddRightFace (int x, int y, int z)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -93,14 +200,14 @@ namespace Renlvda.Voxel
 			triangles.Add (1 + vertices.Count);
 			triangles.Add (0 + vertices.Count);
 
-			vertices.Add (new Vector3 (-1, 0, 0));
-			vertices.Add (new Vector3 (0, 0, 0));
-			vertices.Add (new Vector3 (0, 1, 0));
-			vertices.Add (new Vector3 (-1, 1, 0));
+			vertices.Add (new Vector3 (0 + x, 0 + y, 1 + z));
+			vertices.Add (new Vector3 (-1 + x, 0 + y, 1 + z));
+			vertices.Add (new Vector3 (-1 + x, 1 + y, 1 + z));
+			vertices.Add (new Vector3 (0 + x, 1 + y, 1 + z));
 
 		}
 
-		void AddRightFace ()
+		void AddTopFace (int x, int y, int z)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -110,14 +217,14 @@ namespace Renlvda.Voxel
 			triangles.Add (1 + vertices.Count);
 			triangles.Add (0 + vertices.Count);
 
-			vertices.Add (new Vector3 (0, 0, 1));
-			vertices.Add (new Vector3 (-1, 0, 1));
-			vertices.Add (new Vector3 (-1, 1, 1));
-			vertices.Add (new Vector3 (0, 1, 1));
+			vertices.Add (new Vector3 (0 + x, 1 + y, 0 + z));
+			vertices.Add (new Vector3 (0 + x, 1 + y, 1 + z));
+			vertices.Add (new Vector3 (-1 + x, 1 + y, 1 + z));
+			vertices.Add (new Vector3 (-1 + x, 1 + y, 0 + z));
 
 		}
 
-		void AddTopFace ()
+		void AddBottomFace (int x, int y, int z)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -127,27 +234,10 @@ namespace Renlvda.Voxel
 			triangles.Add (1 + vertices.Count);
 			triangles.Add (0 + vertices.Count);
 
-			vertices.Add (new Vector3 (0, 1, 0));
-			vertices.Add (new Vector3 (0, 1, 1));
-			vertices.Add (new Vector3 (-1, 1, 1));
-			vertices.Add (new Vector3 (-1, 1, 0));
-
-		}
-
-		void AddBottomFace ()
-		{
-			triangles.Add (0 + vertices.Count);
-			triangles.Add (3 + vertices.Count);
-			triangles.Add (2 + vertices.Count);
-
-			triangles.Add (2 + vertices.Count);
-			triangles.Add (1 + vertices.Count);
-			triangles.Add (0 + vertices.Count);
-
-			vertices.Add (new Vector3 (-1, 0, 0));
-			vertices.Add (new Vector3 (-1, 0, 1));
-			vertices.Add (new Vector3 (0, 0, 1));
-			vertices.Add (new Vector3 (0, 0, 0));
+			vertices.Add (new Vector3 (-1 + x, 0 + y, 0 + z));
+			vertices.Add (new Vector3 (-1 + x, 0 + y, 1 + z));
+			vertices.Add (new Vector3 (0 + x, 0 + y, 1 + z));
+			vertices.Add (new Vector3 (0 + x, 0 + y, 0 + z));
 
 		}
 	}
