@@ -21,7 +21,7 @@ namespace Renlvda.Voxel
 		}
 
 		void Start(){
-			StartCoroutine ();
+			StartCoroutine (SpawnChunk (new Vector3int (0, 0, 0)));
 		}
 
 		public IEnumerator SpawnChunk(Vector3int pos){
