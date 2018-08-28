@@ -2,7 +2,8 @@
 using System.Collections;
 using System;
 
-namespace Renlvda.Util{
+namespace Renlvda.Util
+{
 	[Serializable]
 	public struct Vector3int
 	{
