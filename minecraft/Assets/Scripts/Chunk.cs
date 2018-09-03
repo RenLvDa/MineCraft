@@ -24,7 +24,7 @@ namespace Renlvda.Voxel
 		private List<int> triangles = new List<int> ();
 
 		//所有的uv信息
-		private List<Vector2> uv = new List<Vector2>();
+		private List<Vector2> uv = new List<Vector2> ();
 		//uv贴图每行每列的宽度(0~1),这里我的贴图是32x32的，所以是1/32
 		public static float textureOffset = 1 / 32f;
 		//让uv稍微缩小一点，避免出现它旁边的贴图
@@ -97,7 +97,7 @@ namespace Renlvda.Voxel
 				for (int y = 0; y < Chunk.height; y++) {
 					for (int z = 0; z < Chunk.width; z++) {
 						//获取当前坐标的block对象
-						Block block = BlockList.GetBlock(this.blocks[x,y,z]);
+						Block block = BlockList.GetBlock (this.blocks [x, y, z]);
 						if (block == null)
 							continue;
 						
@@ -170,12 +170,22 @@ namespace Renlvda.Voxel
 			vertices.Add (new Vector3 (0 + x, 1 + y, 0 + z));
 
 			//添加uv坐标点，跟上面4个点循环的顺序一致
-			uv.Add(new Vector2(block.textureFrontX * 
-				textureOffset,block.textureFrontY*textureOffset)+new Vector2(shrinkSize,shrinkSize));
+			uv.Add (new Vector2 (block.textureFrontX * textureOffset, 
+				block.textureFrontY * textureOffset)
+				+ new Vector2 (shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureFrontX * textureOffset + textureOffset, 
+				block.textureFrontY * textureOffset) 
+				+ new Vector2 (-shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureFrontX * textureOffset + textureOffset, 
+				block.textureFrontY *	textureOffset + textureOffset) 
+				+ new Vector2 (-shrinkSize, -shrinkSize));
+			uv.Add (new Vector2 (block.textureFrontX * textureOffset, 
+				block.textureFrontY * textureOffset + textureOffset) 
+				+ new Vector2 (shrinkSize, -shrinkSize));
 		}
 
 		//背面
-		void AddBackFace (int x, int y, int z)
+		void AddBackFace (int x, int y, int z, Block block)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -192,7 +202,7 @@ namespace Renlvda.Voxel
 
 		}
 
-		void AddLeftFace (int x, int y, int z)
+		void AddLeftFace (int x, int y, int z, Block block)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -209,7 +219,7 @@ namespace Renlvda.Voxel
 
 		}
 
-		void AddRightFace (int x, int y, int z)
+		void AddRightFace (int x, int y, int z, Block block)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -226,7 +236,7 @@ namespace Renlvda.Voxel
 
 		}
 
-		void AddTopFace (int x, int y, int z)
+		void AddTopFace (int x, int y, int z, Block block)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
@@ -243,7 +253,7 @@ namespace Renlvda.Voxel
 
 		}
 
-		void AddBottomFace (int x, int y, int z)
+		void AddBottomFace (int x, int y, int z, Block block)
 		{
 			triangles.Add (0 + vertices.Count);
 			triangles.Add (3 + vertices.Count);
