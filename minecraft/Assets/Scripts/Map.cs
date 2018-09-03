@@ -13,6 +13,7 @@ namespace Renlvda.Voxel
 
 		public Dictionary<Vector3int,GameObject> chunks = new Dictionary<Vector3int, GameObject> ();
 
+		//当时是否正在生产chunk
 		private bool spawningChunk = false;
 
 		void Awake(){

@@ -10,8 +10,8 @@ namespace Renlvda.Voxel
 	[RequireComponent (typeof(MeshCollider))]
 	public class Chunk : MonoBehaviour
 	{
-		public static int width = 16;
-		public static int height = 16;
+		public static int width = 1;
+		public static int height = 1;
 
 		public byte[,,] blocks;
 		public Vector3int position;
@@ -56,7 +56,7 @@ namespace Renlvda.Voxel
 				Destroy (this);
 			} else {
 				this.name = "(" + position.x + "," + position.y + "," + position.z + ")";
-
+				StartFunction();
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace Renlvda.Voxel
 
 		IEnumerator CreateMap ()
 		{
-			while (!isWorking) {
+			while (isWorking) {
 				yield return null;
 			}
 			isWorking = true;
@@ -200,6 +200,19 @@ namespace Renlvda.Voxel
 			vertices.Add (new Vector3 (-1 + x, 1 + y, 0 + z));
 			vertices.Add (new Vector3 (-1 + x, 1 + y, 1 + z));
 
+			uv.Add (new Vector2 (block.textureBackX * textureOffset, 
+				block.textureBackY * textureOffset)
+				+ new Vector2 (shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureBackX * textureOffset + textureOffset, 
+				block.textureBackY * textureOffset) 
+				+ new Vector2 (-shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureBackX * textureOffset + textureOffset, 
+				block.textureBackY * textureOffset + textureOffset) 
+				+ new Vector2 (-shrinkSize, -shrinkSize));
+			uv.Add (new Vector2 (block.textureBackX * textureOffset, 
+				block.textureBackY * textureOffset + textureOffset) 
+				+ new Vector2 (shrinkSize, -shrinkSize));
+
 		}
 
 		void AddLeftFace (int x, int y, int z, Block block)
@@ -216,6 +229,19 @@ namespace Renlvda.Voxel
 			vertices.Add (new Vector3 (0 + x, 0 + y, 0 + z));
 			vertices.Add (new Vector3 (0 + x, 1 + y, 0 + z));
 			vertices.Add (new Vector3 (-1 + x, 1 + y, 0 + z));
+
+			uv.Add (new Vector2 (block.textureLeftX * textureOffset, 
+				block.textureLeftY * textureOffset)
+				+ new Vector2 (shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureLeftX * textureOffset + textureOffset, 
+				block.textureLeftY * textureOffset) 
+				+ new Vector2 (-shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureLeftX * textureOffset + textureOffset, 
+				block.textureLeftY * textureOffset + textureOffset) 
+				+ new Vector2 (-shrinkSize, -shrinkSize));
+			uv.Add (new Vector2 (block.textureLeftX * textureOffset, 
+				block.textureLeftY * textureOffset + textureOffset) 
+				+ new Vector2 (shrinkSize, -shrinkSize));
 
 		}
 
@@ -234,6 +260,18 @@ namespace Renlvda.Voxel
 			vertices.Add (new Vector3 (-1 + x, 1 + y, 1 + z));
 			vertices.Add (new Vector3 (0 + x, 1 + y, 1 + z));
 
+			uv.Add (new Vector2 (block.textureRightX * textureOffset, 
+				block.textureRightY * textureOffset)
+				+ new Vector2 (shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureRightX * textureOffset + textureOffset, 
+				block.textureRightY * textureOffset) 
+				+ new Vector2 (-shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureRightX * textureOffset + textureOffset, 
+				block.textureRightY * textureOffset + textureOffset) 
+				+ new Vector2 (-shrinkSize, -shrinkSize));
+			uv.Add (new Vector2 (block.textureRightX * textureOffset, 
+				block.textureRightY * textureOffset + textureOffset) 
+				+ new Vector2 (shrinkSize, -shrinkSize));
 		}
 
 		void AddTopFace (int x, int y, int z, Block block)
@@ -251,6 +289,18 @@ namespace Renlvda.Voxel
 			vertices.Add (new Vector3 (-1 + x, 1 + y, 1 + z));
 			vertices.Add (new Vector3 (-1 + x, 1 + y, 0 + z));
 
+			uv.Add (new Vector2 (block.textureTopX * textureOffset, 
+				block.textureTopY * textureOffset)
+				+ new Vector2 (shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureTopX * textureOffset + textureOffset, 
+				block.textureTopY * textureOffset) 
+				+ new Vector2 (-shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureTopX * textureOffset + textureOffset, 
+				block.textureTopY * textureOffset + textureOffset) 
+				+ new Vector2 (-shrinkSize, -shrinkSize));
+			uv.Add (new Vector2 (block.textureTopX * textureOffset, 
+				block.textureTopY * textureOffset + textureOffset) 
+				+ new Vector2 (shrinkSize, -shrinkSize));
 		}
 
 		void AddBottomFace (int x, int y, int z, Block block)
@@ -268,6 +318,18 @@ namespace Renlvda.Voxel
 			vertices.Add (new Vector3 (0 + x, 0 + y, 1 + z));
 			vertices.Add (new Vector3 (0 + x, 0 + y, 0 + z));
 
+			uv.Add (new Vector2 (block.textureBottomX * textureOffset, 
+				block.textureBottomY * textureOffset)
+				+ new Vector2 (shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureBottomX * textureOffset + textureOffset, 
+				block.textureBottomY * textureOffset) 
+				+ new Vector2 (-shrinkSize, shrinkSize));
+			uv.Add (new Vector2 (block.textureBottomX * textureOffset + textureOffset, 
+				block.textureBottomY * textureOffset + textureOffset) 
+				+ new Vector2 (-shrinkSize, -shrinkSize));
+			uv.Add (new Vector2 (block.textureBottomX * textureOffset, 
+				block.textureBottomY * textureOffset + textureOffset) 
+				+ new Vector2 (shrinkSize, -shrinkSize));
 		}
 	}
 }
