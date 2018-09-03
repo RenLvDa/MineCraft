@@ -10,8 +10,8 @@ namespace Renlvda.Voxel
 	[RequireComponent (typeof(MeshCollider))]
 	public class Chunk : MonoBehaviour
 	{
-		public static int width = 1;
-		public static int height = 1;
+		public static int width = 16;
+		public static int height = 16;
 
 		public byte[,,] blocks;
 		public Vector3int position;
@@ -52,9 +52,14 @@ namespace Renlvda.Voxel
 //
 //			GetComponent<MeshFilter> ().mesh = mesh;
 			position = new Vector3int (this.transform.position);
-			if (Map.Instance.chunks.ContainsKey (position)) {
+			if (Map.Instance.ChunkExists(position)) 
+			{
+				Debug.Log ("此方块已存在" + position);
 				Destroy (this);
-			} else {
+			} 
+			else 
+			{
+				Map.Instance.chunks.Add (position, this.gameObject);
 				this.name = "(" + position.x + "," + position.y + "," + position.z + ")";
 				StartFunction();
 			}
@@ -78,7 +83,14 @@ namespace Renlvda.Voxel
 			for (int x = 0; x < Chunk.width; x++) {
 				for (int y = 0; y < Chunk.height; y++) {
 					for (int z = 0; z < Chunk.width; z++) {
-						blocks [x, y, z] = 1;
+						if (y == Chunk.height - 1) {
+							if (Random.Range (1, 5) == 1) {
+								blocks [x, y, z] = 2;
+							}
+
+						} else {
+							blocks [x, y, z] = 1;
+						}
 					}
 				}
 			}
@@ -141,12 +153,14 @@ namespace Renlvda.Voxel
 		}
 
 
-		public static bool IsBlockTransparent (int x, int y, int z)
+		//此坐标方块是否透明，Chunk中的局部坐标
+		public bool IsBlockTransparent (int x, int y, int z)
 		{
 			if (x >= width || y >= height || z >= width || x < 0 || y < 0 || z < 0) {
 				return true;
+			} else {
+				return this.blocks [x, y, z] == 0;
 			}
-			return false;
 		}
 
 
