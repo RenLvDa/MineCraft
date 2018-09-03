@@ -1,11 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BlockList.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Terrain.cs">
     <Files>
       <File FileName="Assets\Scripts\Block.cs" Line="28" Column="2" />
-      <File FileName="Assets\Scripts\Chunk.cs" Line="55" Column="21" />
+      <File FileName="Assets\Scripts\Chunk.cs" Line="97" Column="7" />
       <File FileName="Assets\Scripts\BlockList.cs" Line="21" Column="1" />
-      <File FileName="Assets\Scripts\Map.cs" Line="14" Column="50" />
+      <File FileName="Assets\Scripts\Map.cs" Line="35" Column="26" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="7" Column="48" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="9" Column="2" />
+      <File FileName="Assets\Scripts\Terrain.cs" Line="15" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

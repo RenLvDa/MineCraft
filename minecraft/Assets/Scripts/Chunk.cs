@@ -83,13 +83,11 @@ namespace Renlvda.Voxel
 			for (int x = 0; x < Chunk.width; x++) {
 				for (int y = 0; y < Chunk.height; y++) {
 					for (int z = 0; z < Chunk.width; z++) {
-						if (y == Chunk.height - 1) {
-							if (Random.Range (1, 5) == 1) {
-								blocks [x, y, z] = 2;
-							}
-
+						byte blockid = Terrain.GetTerrainBlock (new Vector3int (x, y, z) + position);
+						if (blockid == 1 && Terrain.GetTerrainBlock (new Vector3int (x, y + 1, z) + position) == 0 ) {
+							blocks [x, y, z] = 2;
 						} else {
-							blocks [x, y, z] = 1;
+							blocks [x, y, z] = Terrain.GetTerrainBlock (new Vector3int (x, y, z) + position);
 						}
 					}
 				}

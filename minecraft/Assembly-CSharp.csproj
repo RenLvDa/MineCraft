@@ -51,13 +51,51 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\LibNoise\Generator\Billow.cs" />
+     <Compile Include="Assets\LibNoise\Generator\Checker.cs" />
+     <Compile Include="Assets\LibNoise\Generator\Const.cs" />
+     <Compile Include="Assets\LibNoise\Generator\Cylinders.cs" />
+     <Compile Include="Assets\LibNoise\Generator\Perlin.cs" />
+     <Compile Include="Assets\LibNoise\Generator\RidgedMultifractal.cs" />
+     <Compile Include="Assets\LibNoise\Generator\Spheres.cs" />
+     <Compile Include="Assets\LibNoise\Generator\Voronoi.cs" />
+     <Compile Include="Assets\LibNoise\GradientPresets.cs" />
+     <Compile Include="Assets\LibNoise\ModuleBase.cs" />
+     <Compile Include="Assets\LibNoise\Noise2D.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Abs.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Add.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Blend.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Cache.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Clamp.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Curve.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Displace.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Exponent.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Invert.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Max.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Min.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Multiply.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Power.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Rotate.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Scale.cs" />
+     <Compile Include="Assets\LibNoise\Operator\ScaleBias.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Select.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Subtract.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Terrace.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Translate.cs" />
+     <Compile Include="Assets\LibNoise\Operator\Turbulence.cs" />
+     <Compile Include="Assets\LibNoise\Properties\AssemblyInfo.cs" />
+     <Compile Include="Assets\LibNoise\Utils.cs" />
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\BlockList.cs" />
      <Compile Include="Assets\Scripts\Chunk.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Map.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Terrain.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Vector3Utils.cs" />
+     <None Include="Assets\LibNoise\COPYING.txt" />
+     <None Include="Assets\LibNoise\COPYING.LESSER.txt" />
      <None Include="Assets\Resources\Shader\NewSurfaceShader.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
