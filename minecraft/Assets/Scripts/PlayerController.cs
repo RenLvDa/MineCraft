@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
 
 	//视线范围
 	public int viewRange = 30;
+	public Ray ray;
+
+	void Awake(){
+		ray = (Ray)Camera.main.ScreenPointToRay (Input.mousePosition);
+	}
 
 	void Update ()
 	{
@@ -27,5 +32,22 @@ public class PlayerController : MonoBehaviour
 				}
 			}
 		}
+
+//		if (Input.GetMouseButton (0)) {
+//			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+//			RaycastHit hitInfo;
+//			if (Physics.Raycast (ray, out hitInfo, 200)) {
+//				
+//				Chunk oldChunk = hitInfo.collider.gameObject.GetComponent<Chunk> ();
+//				Vector3int chunkPosition = new Vector3int (oldChunk.position);
+//
+//				Vector3int blockPosition = new Vector3int (hitInfo.point);
+//				//blockPosition -= chunkPosition;
+//				Debug.Log (blockPosition);
+//
+//				oldChunk.blocks[blockPosition.x,blockPosition.y,blockPosition.z] = 1;
+//				oldChunk.ReFreshMesh ();
+//			}	
+//		}
 	}
 }
