@@ -186,21 +186,21 @@ namespace Renlvda.Voxel
 //					}
 //				}
 //			}
-
-			//为点和index赋值
-			mesh.vertices = vertices.ToArray ();
-			mesh.triangles = triangles.ToArray ();
-			mesh.uv = uv.ToArray ();
-
-			//重新计算顶点和法线
-			mesh.RecalculateBounds ();
-			mesh.RecalculateNormals ();
-
-			//将生成好的面赋值给组件
-			this.GetComponent<MeshFilter> ().mesh = mesh;
-			this.GetComponent<MeshCollider> ().sharedMesh = mesh;
-
-		}
+//
+//			//为点和index赋值
+//			mesh.vertices = vertices.ToArray ();
+//			mesh.triangles = triangles.ToArray ();
+//			mesh.uv = uv.ToArray ();
+//
+//			//重新计算顶点和法线
+//			mesh.RecalculateBounds ();
+//			mesh.RecalculateNormals ();
+//
+//			//将生成好的面赋值给组件
+//			this.GetComponent<MeshFilter> ().mesh = mesh;
+//			this.GetComponent<MeshCollider> ().sharedMesh = mesh;
+//
+//		}
 
 		//此坐标方块是否透明，Chunk中的局部坐标
 		public bool IsBlockTransparent (int x, int y, int z)
