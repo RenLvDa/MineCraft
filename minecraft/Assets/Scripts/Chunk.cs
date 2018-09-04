@@ -86,6 +86,8 @@ namespace Renlvda.Voxel
 						byte blockid = Terrain.GetTerrainBlock (new Vector3int (x, y, z) + position);
 						if (blockid == 1 && Terrain.GetTerrainBlock (new Vector3int (x, y + 1, z) + position) == 0 ) {
 							blocks [x, y, z] = 2;
+						} else if( position.y == 0 && y == 0 && Terrain.GetTerrainBlock (new Vector3int (x, y + 1, z) + position) == 0){  
+							blocks [x, y, z] = 2;
 						} else {
 							blocks [x, y, z] = Terrain.GetTerrainBlock (new Vector3int (x, y, z) + position);
 						}
